@@ -22,7 +22,7 @@ body {
 }
 
 .dashboard-header {
-    background: linear-gradient(to right, var(--primary), #65c7f7, #bf00ff); /* Gradasi biru */
+    background: linear-gradient(to right, var(--primary), #00FFFF, #2B0055); /* Gradasi biru */
     color: white;
     padding: 2.5rem 0; /* Padding lebih lega */
     margin-bottom: 2.5rem; /* Margin bawah lebih lega */
