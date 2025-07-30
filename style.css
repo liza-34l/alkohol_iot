@@ -1,183 +1,126 @@
 :root {
-    --primary: #007bff; /* Biru terang Bootstrap */
-    --secondary: #6c757d; /* Abu-abu Bootstrap */
-    --success: #28a745; /* Hijau Bootstrap */
-    --danger: #dc3545; /* Merah Bootstrap */
-    --light: #f8f9fa; /* Sangat terang (background umum) */
-    --dark: #343a40; /* Abu-abu gelap untuk teks atau elemen gelap */
+  --primary-neon: #00FFFF;
+  --danger: #FF4C4C;
+  --warning: #FFDD00;
+  --background-dark: #0A001F; /* kombinasi biru donker & ungu donker */
+  --card-dark: #160033;
+  --text-light: #ffffff;
+  --muted-text: #bbbbbb;
 }
 
 body {
-    background-color: var(--light); /* Latar belakang cerah */
-    font-family: 'Nunito', sans-serif; /* Font Nunito */
-    min-height: 100vh; /* Agar footer sticky */
-    display: flex;
-    flex-direction: column;
-    color: var(--dark); /* Teks default gelap */
-
-    /* Background image di body, tidak di html, untuk scrolling effect */
-    background-image: url('background.jpg'); /* Contoh pola cerah */
-    background-size: cover;
-    background-attachment: fixed; /* Menempel saat scroll, mencegah "zoom" */
+  background-color: var(--background-dark);
+  color: var(--text-light);
+  font-family: 'Segoe UI', sans-serif;
+  padding: 20px;
 }
 
-.dashboard-header {
-    background: linear-gradient(to right, var(--primary), #00FFFF, #2B0055); /* Gradasi biru */
-    color: white;
-    padding: 2.5rem 0; /* Padding lebih lega */
-    margin-bottom: 2.5rem; /* Margin bawah lebih lega */
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
-    border-radius: 0 0 20px 20px; /* Sudut bawah melengkung */
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Shadow lebih menonjol */
+h1, h2, h3 {
+  color: var(--primary-neon);
 }
 
-.dashboard-header .lead {
-    color: rgba(255,255,255,0.9);
+.card {
+  background: var(--card-dark);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
+  transition: 0.3s;
 }
 
-/* Kartu Dashboard */
-.dashboard-card {
-    background-color: white; /* Latar belakang kartu putih solid */
-    border: 1px solid rgba(0,0,0,.125); /* Border Bootstrap */
-    border-radius: 0.75rem; /* Sudut lebih lembut */
-    padding: 2rem; /* Padding lega */
-    box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.1); /* Shadow lembut */
-    height: 100%; /* Membuat semua kartu dalam satu baris sama tinggi */
+.card:hover {
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.25);
 }
 
-.card-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 1.25rem;
-    color: var(--dark);
-}
-
-/* Kartu Informasi Sistem (paling atas) */
-.system-info-card {
-    background-color: var(--light); /* Lebih terang */
-    padding: 1rem 2rem; /* Padding lebih kecil */
-    font-size: 1rem;
-    border-radius: 0.5rem;
-}
-
-/* Kartu untuk menampilkan nilai sensor */
-.value-card {
-    text-align: center;
-    min-height: 180px; /* Tinggi minimum yang disesuaikan */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.value-title {
-    color: var(--secondary); /* Warna abu-abu untuk judul */
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-}
-
-.value-card .display-3 {
-    font-weight: 700;
-    font-size: 3.8rem; /* Ukuran teks lebih besar */
-    color: var(--primary); /* Warna nilai sensor */
-    margin: 0;
-}
-
-.status-text {
-    color: var(--secondary);
-    font-weight: 500;
-    font-size: 1.1rem;
-    margin-top: 0.5rem;
-}
-
-/* Indikator Status Koneksi */
 .status-indicator {
-    display: inline-block;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    margin-right: 8px;
-    transition: background-color 0.3s ease;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+  background-color: gray;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.2);
 }
 
 .status-connected {
-    background-color: var(--success);
-    box-shadow: 0 0 8px var(--success);
+  background-color: #00ff88;
+  box-shadow: 0 0 10px #00ff88;
 }
 
 .status-disconnected {
-    background-color: var(--danger);
+  background-color: #FF4C4C;
+  box-shadow: 0 0 10px #FF4C4C;
 }
 
-/* Log Peringatan */
-/* Karena ini sekarang kartu tunggal untuk pop-up, style logList dihilangkan */
-/* Tombol 'Lihat Peringatan Terkini' akan menggunakan gaya Bootstrap default */
-
-/* Footer */
-footer {
-    padding: 2rem 0;
-    color: var(--secondary);
-    font-size: 0.9rem;
-    margin-top: 3rem; /* Margin atas lebih besar untuk pemisah */
-    background-color: rgba(255,255,255,0.7); /* Footer semi-transparan */
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+.status-text {
+  font-weight: bold;
+  font-size: 1.2rem;
+  padding-top: 5px;
 }
 
-/* Chart.js specific styles */
+.text-danger {
+  color: var(--danger) !important;
+}
+
+.text-success {
+  color: #00ff88 !important;
+}
+
+.text-warning {
+  color: var(--warning);
+}
+
+#alcoholValue {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--primary-neon);
+  text-shadow: 0 0 5px var(--primary-neon);
+}
+
+#distanceValue {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--warning);
+  text-shadow: 0 0 5px var(--warning);
+}
+
+#distanceUnit {
+  font-size: 1.2rem;
+  margin-left: 5px;
+}
+
+#lastUpdate {
+  font-size: 0.9rem;
+  color: var(--muted-text);
+}
+
+#alertIndicator {
+  font-size: 1rem;
+}
+
 canvas {
-    max-width: 100%;
-    height: auto;
+  background-color: transparent;
+  border-radius: 12px;
 }
 
-@media (max-width: 768px) {
-    .dashboard-header {
-        padding: 1.5rem 0;
-    }
-    .display-3 {
-        font-size: 2.8rem;
-    }
-    .value-title {
-        font-size: 1.2rem;
-    }
-    .dashboard-card {
-        padding: 1rem;
-    }
+.modal-content {
+  background-color: var(--card-dark);
+  color: var(--text-light);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
 }
 
-/* Font Awesome animation */
-.fa-beat {
-    animation: fa-beat 1s infinite alternate;
+.btn-neon {
+  background: transparent;
+  border: 2px solid var(--primary-neon);
+  color: var(--primary-neon);
+  transition: 0.3s ease;
+  border-radius: 8px;
+  font-weight: bold;
 }
 
-/* Custom list-group-item-danger for log peringatan (untuk modal) */
-.list-group-item-danger {
-    background-color: #f8d7da !important; /* Lighter red for background */
-    color: #721c24 !important; /* Darker red for text */
-    border-color: #f5c6cb !important;
-}
-
-/* Added for consistent height of cards in rows */
-.h-100 {
-    height: 100% !important;
-}
-
-/* CSS untuk tabel yang bisa di-scroll (jika diterapkan) */
-.table-responsive {
-    /* Style default Bootstrap sudah cukup baik, ini bisa digunakan untuk override */
-}
-.table-scroll-container {
-    max-height: 250px;
-    overflow-y: auto;
-    border: 1px solid rgba(0,0,0,.125); /* Border sesuai Bootstrap */
-    border-radius: 0.25rem; /* Sudut default Bootstrap */
-}
-.table-scroll-container table thead {
-    position: sticky;
-    top: 0;
-    background-color: white; /* Header putih */
-    z-index: 1;
-    color: var(--dark); /* Teks header gelap */
-}
-.table-scroll-container table {
-    margin-bottom: 0; /* Hapus margin default tabel */
+.btn-neon:hover {
+  background: var(--primary-neon);
+  color: #000;
+  box-shadow: 0 0 10px var(--primary-neon);
 }

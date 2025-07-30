@@ -1,8 +1,5 @@
-// Isi lengkap untuk file dash.js
-
 const client = mqtt.connect("wss://broker.hivemq.com:8884/mqtt");
 
-// Dapatkan referensi ke elemen HTML yang relevan
 const mqttStatusElement = document.getElementById("mqttStatus");
 const statusIndicator = document.querySelector(".status-indicator");
 const alcoholValueElement = document.getElementById("alcoholValue");
@@ -11,18 +8,13 @@ const distanceValueEl = document.getElementById("distanceValue");
 const distanceUnitEl = document.getElementById("distanceUnit");
 const lastUpdateElement = document.getElementById("lastUpdate");
 
-// Elemen-elemen untuk peringatan pop-up
 const alertIndicator = document.getElementById("alertIndicator");
 const viewAlertsBtn = document.getElementById("viewAlertsBtn");
 const latestAlertEntry = document.getElementById("latestAlertEntry");
-
-// Inisialisasi modal Bootstrap
 const alertModal = new bootstrap.Modal(document.getElementById('alertModal'));
 
-// Variabel untuk menyimpan peringatan terakhir
 let lastWarningData = null;
 
-// Fungsi untuk memperbarui tampilan peringatan di modal dan indikator utama
 function updateLatestAlertDisplay(data = null) {
     if (data && data.status === "BAHAYA") {
         let formattedDistance = data.distance;
@@ -31,14 +23,14 @@ function updateLatestAlertDisplay(data = null) {
         } else if (!isNaN(data.distance) && data.distance >= 0) {
             formattedDistance = `${data.distance.toFixed(1)} cm`;
         } else {
-            formattedDistance = "--- cm"; // Untuk kasus NaN atau negatif
+            formattedDistance = "--- cm";
         }
 
         latestAlertEntry.innerHTML = `Kadar: ${data.value} PPM (Jarak: ${formattedDistance}) pada ${data.time}`;
-        alertIndicator.textContent = "Ada peringatan BAHAYA!";
+        alertIndicator.textContent = "🚨 Ada peringatan BAHAYA!";
         alertIndicator.className = "text-danger fw-bold fa-beat";
         viewAlertsBtn.classList.remove("d-none");
-        
+
         if (!alertModal._isShown) {
             alertModal.show();
         }
@@ -50,8 +42,6 @@ function updateLatestAlertDisplay(data = null) {
     }
 }
 
-
-// Fungsi saat berhasil terhubung ke Broker MQTT
 client.on("connect", () => {
     console.log("Terhubung ke broker MQTT");
     mqttStatusElement.textContent = "Terhubung";
@@ -60,7 +50,6 @@ client.on("connect", () => {
     client.subscribe("alkohol/kadar");
 });
 
-// Fungsi jika terjadi error koneksi
 client.on("error", (error) => {
     console.error("Gagal terhubung ke broker:", error);
     mqttStatusElement.textContent = "Gagal Terhubung";
@@ -68,7 +57,6 @@ client.on("error", (error) => {
     statusIndicator.classList.remove("status-connected");
 });
 
-// Fungsi saat koneksi terputus (WebSocket event)
 client.on("close", () => {
     console.log("Koneksi ke broker terputus.");
     mqttStatusElement.textContent = "Terputus";
@@ -76,97 +64,84 @@ client.on("close", () => {
     statusIndicator.classList.add("status-disconnected");
 });
 
-
-// =================================================================================
-// --- BAGIAN GRAFIK ---
-// =================================================================================
-
+// === GRAFIK DENGAN GAYA NEON ===
 const ctx = document.getElementById("chart").getContext("2d");
 
-const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-gradient.addColorStop(0, 'rgba(0, 123, 255, 0.2)');
-gradient.addColorStop(1, 'rgba(0, 123, 255, 0.0)');
+const gradientCyan = ctx.createLinearGradient(0, 0, 0, 300);
+gradientCyan.addColorStop(0, 'rgba(0, 255, 255, 0.3)');
+gradientCyan.addColorStop(1, 'rgba(0, 255, 255, 0.0)');
 
 const chart = new Chart(ctx, {
     type: "line",
     data: {
         labels: [],
-        datasets: [{
-            label: "Nilai Sensor Alkohol",
-            data: [],
-            backgroundColor: gradient,
-            borderColor: "#007BFF",
-            borderWidth: 3,
-            fill: true,
-            tension: 0.4,
-            pointBackgroundColor: "#ffffff",
-            pointBorderColor: "#007BFF",
-            pointBorderWidth: 2,
-            pointRadius: 4,
-            pointHoverRadius: 7,
-        },
-        {
-            label: "Jarak (cm)",
-            data: [],
-            borderColor: "#FFC107",
-            borderWidth: 3,
-            fill: false,
-            tension: 0.4,
-            pointBackgroundColor: "#ffffff",
-            pointBorderColor: "#FFC107",
-            pointBorderWidth: 2,
-            pointRadius: 4,
-            pointHoverRadius: 7,
-        }]
+        datasets: [
+            {
+                label: "Kadar Alkohol (PPM)",
+                data: [],
+                backgroundColor: gradientCyan,
+                borderColor: "rgba(0, 255, 255, 0.9)",
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+                pointBackgroundColor: "#00FFFF",
+                pointBorderColor: "#00FFFF",
+                pointBorderWidth: 1,
+                pointRadius: 3,
+                pointHoverRadius: 6,
+            },
+            {
+                label: "Jarak (cm)",
+                data: [],
+                borderColor: "#FFDD00",
+                borderWidth: 2,
+                fill: false,
+                tension: 0.4,
+                pointBackgroundColor: "#ffffff",
+                pointBorderColor: "#FFDD00",
+                pointBorderWidth: 1,
+                pointRadius: 3,
+                pointHoverRadius: 5,
+            }
+        ]
     },
     options: {
         responsive: true,
         maintainAspectRatio: false,
         scales: {
-            x: { 
-                title: { display: true, text: "Waktu", color: '#6c757d' },
-                ticks: { color: '#6c757d' },
-                grid: {
-                    color: "rgba(0, 0, 0, 0.1)",
-                    drawBorder: false,
-                }
+            x: {
+                title: { display: true, text: "Waktu", color: '#00ffff' },
+                ticks: { color: '#dddddd' },
+                grid: { color: "rgba(0, 255, 255, 0.1)", drawBorder: false }
             },
-            y: { 
-                title: { display: true, text: "Nilai", color: '#6c757d' },
-                ticks: { color: '#6c757d' },
-                grid: {
-                    color: "rgba(0, 0, 0, 0.1)",
-                    drawBorder: false,
-                }
+            y: {
+                title: { display: true, text: "Nilai", color: '#00ffff' },
+                ticks: { color: '#dddddd' },
+                grid: { color: "rgba(0, 255, 255, 0.1)", drawBorder: false }
             }
         },
         plugins: {
             legend: {
                 labels: {
-                    color: '#343a40',
-                    font: {
-                        size: 14
-                    }
+                    color: '#ffffff',
+                    font: { size: 13 }
                 }
             },
             tooltip: {
-                backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                titleColor: '#ffffff',
-                bodyColor: '#dddddd',
+                backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                titleColor: '#00ffff',
+                bodyColor: '#ffffff',
+                borderColor: '#00ffff',
+                borderWidth: 1,
                 padding: 10,
-                cornerRadius: 8,
+                cornerRadius: 6,
                 displayColors: false,
             }
         }
     }
 });
 
-// =================================================================================
-// --- AKHIR BAGIAN GRAFIK ---
-// =================================================================================
-
-
-// Fungsi saat menerima pesan dari Broker MQTT
+// === LOGIKA DATA MASUK ===
 client.on("message", (topic, message) => {
     try {
         const data = JSON.parse(message.toString());
@@ -175,9 +150,8 @@ client.on("message", (topic, message) => {
         const distance = parseFloat(data.jarak);
         const time = new Date().toLocaleTimeString('id-ID');
 
-        // --- Update Tampilan Real-Time (Kadar Alkohol) ---
-        alcoholValueElement.textContent = `${value} PPM`; 
-        
+        alcoholValueElement.textContent = `${value} PPM`;
+
         if (status === "BAHAYA") {
             alcoholStatusElement.textContent = "Kadar Alkohol BERBAHAYA!";
             alcoholStatusElement.className = "status-text text-danger fw-bold";
@@ -187,82 +161,60 @@ client.on("message", (topic, message) => {
         }
         lastUpdateElement.textContent = time;
 
-        // --- LOGIKA UNTUK JARAK (cm/m) ---
-        if (isNaN(distance) || distance < 0) { 
+        if (isNaN(distance) || distance < 0) {
             distanceValueEl.textContent = "---";
             distanceUnitEl.textContent = "cm";
         } else if (distance < 100) {
             distanceValueEl.textContent = distance.toFixed(1);
             distanceUnitEl.textContent = "cm";
         } else {
-            const distanceInMeters = distance / 100;
-            distanceValueEl.textContent = distanceInMeters.toFixed(2);
+            distanceValueEl.textContent = (distance / 100).toFixed(2);
             distanceUnitEl.textContent = "m";
         }
 
-        // Update data grafik
         chart.data.labels.push(time);
         chart.data.datasets[0].data.push(value);
         chart.data.datasets[1].data.push(distance);
 
-        if (chart.data.labels.length > 20) { // Pertahankan 20 data terakhir
+        if (chart.data.labels.length > 20) {
             chart.data.labels.shift();
             chart.data.datasets[0].data.shift();
             chart.data.datasets[1].data.shift();
         }
         chart.update();
 
-        // --- LOGIKA PERINGATAN POP-UP ---
         if (status === "BAHAYA") {
             const currentWarning = {
                 value: value,
-                status: status, 
+                status: status,
                 time: time,
-                distance: isNaN(distance) || distance < 0 ? "NaN" : distance, 
+                distance: isNaN(distance) || distance < 0 ? "NaN" : distance,
                 timestamp: new Date().toISOString()
             };
 
-            // Cek duplikasi: jika peringatan terbaru serupa dalam 30 detik DAN nilainya sama
             if (lastWarningData) {
                 const lastLogTimestamp = new Date(lastWarningData.timestamp);
                 const timeDiff = new Date() - lastLogTimestamp;
-                const isSimilarValue = lastWarningData.value === value; 
+                const isSimilarValue = lastWarningData.value === value;
 
-                if (timeDiff < 30000 && isSimilarValue) {
-                    return; 
-                }
+                if (timeDiff < 30000 && isSimilarValue) return;
             }
 
             lastWarningData = currentWarning;
-            updateLatestAlertDisplay(lastWarningData);
-
-        } else { // Jika status NORMAL
-            alertIndicator.textContent = "Tidak ada peringatan.";
-            alertIndicator.className = "text-success fw-bold";
-            viewAlertsBtn.classList.add("d-none");
+            updateLatestAlertDisplay(currentWarning);
+        } else {
+            updateLatestAlertDisplay(null);
         }
 
     } catch (err) {
-        console.error("Gagal memproses pesan. Format JSON tidak valid:", err);
+        console.error("Format data tidak valid:", err);
     }
 });
 
-
-// Panggil updateLatestAlertDisplay() saat DOMContentLoaded untuk inisialisasi awal
 document.addEventListener('DOMContentLoaded', () => {
-    // Inisialisasi teks awal untuk elemen-elemen UI
     alcoholValueElement.textContent = "---";
     alcoholStatusElement.textContent = "Menunggu Data";
     distanceValueEl.textContent = "---";
-    distanceUnitEl.textContent = "cm"; 
-    updateLatestAlertDisplay(null); // Awalnya tidak ada peringatan di UI utama
+    distanceUnitEl.textContent = "cm";
+    updateLatestAlertDisplay(null);
 });
-
-
-// Fungsi toggleDistanceChart tidak lagi dipicu oleh tombol di HTML baru.
-// Fungsi ini tetap ada jika sewaktu-waktu ingin ditambahkan tombol kembali.
-function toggleDistanceChart() {
-    const distanceDataset = chart.data.datasets[1];
-    distanceDataset.hidden = !distanceDataset.hidden;
-    chart.update();
-}
