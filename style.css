@@ -1,126 +1,378 @@
-:root {
-  --primary-neon: #00FFFF;
-  --danger: #FF4C4C;
-  --warning: #FFDD00;
-  --background-dark: #0A001F; /* kombinasi biru donker & ungu donker */
-  --card-dark: #160033;
-  --text-light: #ffffff;
-  --muted-text: #bbbbbb;
-}
-
+/* General Styling */
 body {
-  background-color: var(--background-dark);
-  color: var(--text-light);
-  font-family: 'Segoe UI', sans-serif;
-  padding: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #0c182a; /* Deeper blue-black from banner */
+    color: #e3f2fd80; /* Lighter, subtle blue for general text */
+    line-height: 1.6;
+    background-image: url('Futuristik\ Papan\ Sirkuit\ Ilustrasi\ Tinggi\ Komputer….jpg');
 }
 
-h1, h2, h3 {
-  color: var(--primary-neon);
+.container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
-.card {
-  background: var(--card-dark);
-  border: 1px solid rgba(0, 255, 255, 0.3);
-  border-radius: 15px;
-  padding: 20px;
-  box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
-  transition: 0.3s;
+/* Header */
+.header {
+    background-color: #1a2a47; /* Slightly lighter dark blue for header */
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.card:hover {
-  box-shadow: 0 0 25px rgba(0, 255, 255, 0.25);
+.header-logo {
+    font-size: 3em;
+    color: #4dc2f8; /* Bright blue from banner for logo */
+}
+
+.header h1 {
+    margin: 0;
+    color: #4dc2f8; /* Bright blue for main title */
+    font-size: 2.2em;
+    text-align: center;
+}
+
+.header .tagline {
+    margin: 5px 0 0;
+    font-size: 0.9em;
+    color: #9bd0ff; /* Lighter blue for tagline */
+    text-align: center;
+}
+
+.header-info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 0;
+    font-size: 0.9em;
+    color: #aebfd6; /* Slightly muted blue for info text */
+}
+
+.status-broker, .last-update {
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .status-indicator {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  display: inline-block;
-  margin-right: 6px;
-  background-color: gray;
-  box-shadow: 0 0 6px rgba(255, 255, 255, 0.2);
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #dc3545; /* Disconnected (kept red for alert) */
 }
 
-.status-connected {
-  background-color: #00ff88;
-  box-shadow: 0 0 10px #00ff88;
+.status-indicator.status-connected {
+    background-color: #28a745; /* Connected (kept green for clear status) */
 }
 
-.status-disconnected {
-  background-color: #FF4C4C;
-  box-shadow: 0 0 10px #FF4C4C;
+.status-indicator.status-disconnected {
+    background-color: #dc3545; /* Disconnected (kept red) */
 }
 
-.status-text {
-  font-weight: bold;
-  font-size: 1.2rem;
-  padding-top: 5px;
+
+/* Main Content Grid Layout */
+.main-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 20px;
 }
 
-.text-danger {
-  color: var(--danger) !important;
+/* Cards (Sections) */
+.card {
+    background-color: #1a2a47; /* Consistent dark blue for cards */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.text-success {
-  color: #00ff88 !important;
+.card h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #4dc2f8; /* Bright blue for card titles */
+    font-size: 1.5em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.text-warning {
-  color: var(--warning);
+.card h2 .fas {
+    color: #4dc2f8; /* Bright blue for card title icons */
 }
 
-#alcoholValue {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: var(--primary-neon);
-  text-shadow: 0 0 5px var(--primary-neon);
+/* Specific Section Layouts */
+.historic-data {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
 }
 
-#distanceValue {
-  font-size: 2rem;
-  font-weight: bold;
-  color: var(--warning);
-  text-shadow: 0 0 5px var(--warning);
+.chart-container {
+    background-color: #0c182a; /* Matches body background for seamless look */
+    border: 1px solid #3d4e6d; /* Slightly lighter border */
+    border-radius: 4px;
+    padding: 15px;
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
 }
 
-#distanceUnit {
-  font-size: 1.2rem;
-  margin-left: 5px;
+/* Chart.js specific styling */
+#historisChart {
+    width: 100% !important;
+    height: 100% !important;
 }
 
-#lastUpdate {
-  font-size: 0.9rem;
-  color: var(--muted-text);
+.sidebar {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-#alertIndicator {
-  font-size: 1rem;
+.alcohol-level, .sensor-distance {
+    text-align: center;
 }
 
-canvas {
-  background-color: transparent;
-  border-radius: 12px;
+.data-value {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #8edcff; /* Lighter blue for key data values */
+    margin: 10px 0 5px;
 }
 
-.modal-content {
-  background-color: var(--card-dark);
-  color: var(--text-light);
-  border: 1px solid rgba(0, 255, 255, 0.3);
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+.data-status {
+    font-size: 0.9em;
+    color: #aebfd6; /* Muted blue for data status */
+    margin-top: 0;
 }
 
-.btn-neon {
-  background: transparent;
-  border: 2px solid var(--primary-neon);
-  color: var(--primary-neon);
-  transition: 0.3s ease;
-  border-radius: 8px;
-  font-weight: bold;
+.status-text.text-danger {
+    color: #dc3545 !important; /* Red for danger */
 }
 
-.btn-neon:hover {
-  background: var(--primary-neon);
-  color: #000;
-  box-shadow: 0 0 10px var(--primary-neon);
+.status-text.text-success {
+    color: #28a745 !important; /* Green for success */
+}
+
+
+.warning-log {
+    background-color: #2a1f23; /* Darker red-tinted background for warning log */
+    border: 1px solid #3d4e6d; /* Default border */
+}
+
+.warning-log h2 .fas {
+    color: #4dc2f8; /* Default icon color */
+}
+
+.warning-log.active-warning {
+    border-color: #dc3545; /* Red border for active warning */
+}
+.warning-log.active-warning h2 .fas {
+    color: #dc3545; /* Red icon for active warning */
+}
+
+
+.log-message {
+    font-size: 1.1em;
+    color: #ffc107; /* Orange/yellow for warning message itself */
+    text-align: center;
+    padding: 10px;
+    background-color: rgba(255, 193, 7, 0.1); /* Light orange tint for background */
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Font Awesome Animation */
+.fa-beat {
+    animation: fa-beat 1s infinite alternate;
+}
+
+@keyframes fa-beat {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.05); }
+}
+
+.text-danger { color: #dc3545 !important; }
+.text-success { color: #28a745 !important; }
+.fw-bold { font-weight: bold !important; }
+.d-none { display: none !important; }
+
+
+.sample-data {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+#sample-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+#sample-table th, #sample-table td {
+    border: 1px solid #3d4e6d; /* Lighter border for table cells */
+    padding: 12px;
+    text-align: left;
+    white-space: nowrap;
+}
+
+#sample-table th {
+    background-color: #0c182a; /* Matches body background for table header */
+    color: #4dc2f8; /* Bright blue for table headers */
+    font-weight: normal;
+}
+
+#sample-table tbody tr:nth-child(even) {
+    background-color: white; /* Alternate row color matching card background */
+}
+
+#sample-table tbody tr:hover {
+    background-color: #223554; /* Slightly lighter hover for table rows */
+}
+
+.no-data-row {
+    text-align: center;
+    color: #aebfd6;
+    font-style: italic;
+}
+
+.group-members {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+}
+
+.group-members ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.group-members li {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #3d4e6d; /* Lighter border for list items */
+}
+
+.group-members li:last-child {
+    border-bottom: none;
+}
+
+.member-name {
+    font-weight: bold;
+}
+
+.member-nim {
+    color: #aebfd6;
+    font-size: 0.9em;
+}
+
+/* Footer */
+.footer {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 15px;
+    color: #aebfd6;
+    font-size: 0.9em;
+    background-color: #1a2a47; /* Consistent with card background */
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+/* Modal Bootstrap specific overrides for dark theme */
+.modal-content.bg-dark {
+    background-color: #1a2a47 !important; /* Darker background for modal */
+    border: 1px solid #4dc2f8; /* Border matching primary accent */
+}
+
+.modal-header.border-danger {
+    border-bottom-color: #4dc2f5 !important; /* Use accent color for modal header border */
+}
+
+.modal-title.text-danger {
+    color: #4dc2f5 !important; /* Use accent color for modal title */
+}
+
+.btn-close.btn-close-white {
+    filter: invert(1) grayscale(100%) brightness(200%); /* Make close button visible on dark */
+}
+
+.modal-body .text-warning {
+    color: #ffc107 !important; /* Keep warning text yellow/orange */
+}
+
+.modal-body .text-light {
+    color: #e3f2fd !important; /* Keep light text */
+}
+
+.modal-footer.border-danger {
+    border-top-color: #4dc2f5 !important; /* Use accent color for modal footer border */
+}
+
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    .main-content {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "historic-data"
+            "sidebar"
+            "sample-data"
+            "group-members";
+    }
+
+    .historic-data {
+        grid-area: historic-data;
+    }
+    .sidebar {
+        grid-area: sidebar;
+    }
+    .sample-data {
+        grid-area: sample-data;
+    }
+    .group-members {
+        grid-area: group-members;
+    }
+
+    .header-info {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 600px) {
+    .header h1 {
+        font-size: 1.8em;
+    }
+    .data-value {
+        font-size: 2em;
+    }
+    .card {
+        padding: 15px;
+    }
 }
